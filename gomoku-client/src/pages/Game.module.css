@@ -1,0 +1,9 @@
+.message {
+    font-size: 1.5rem;
+    font-weight: bolder;
+}
+
+.button {
+    display: flex;
+    gap: 2rem;
+}

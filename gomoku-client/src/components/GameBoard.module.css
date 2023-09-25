@@ -1,0 +1,15 @@
+.board {
+    background-color: #dcb35c;    
+    padding: 1.5rem; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;  
+    border-radius: 8px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.row {
+    display: inline-flex;
+    gap: 2px;
+}

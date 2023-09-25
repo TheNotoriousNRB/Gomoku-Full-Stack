@@ -1,0 +1,9 @@
+.footer{
+    width: 100%;
+    font-size: 0.8rem;
+    font-weight: bolder;
+    text-align: center;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    border-top: 2px solid gray;
+  }
