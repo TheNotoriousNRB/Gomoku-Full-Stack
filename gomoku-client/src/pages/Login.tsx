@@ -13,15 +13,12 @@ export default function Login() {
 
   const [isCredentialInvalid, setIsCredentialInvalid] = useState(false)
 
-  const handleLogin = () => {
-    const user = users.find(
-      (u) => u.username === username && u.password === password 
-    )
-    if (!user) {
-      setIsCredentialInvalid(true)
-    } else {
-      login(username)
+  const handleLogin = async () => {
+    const user = await login(username, password)
+    if (user===true) {
       navigate('/game')
+    } else {
+      setIsCredentialInvalid(true)
     }
   }
   return (
@@ -44,7 +41,7 @@ export default function Login() {
       />
       <Input 
         name="password" 
-        placeholder="Enter Username" 
+        placeholder="Enter Password" 
         value={password} 
         onChange={(e) => {
           setPassword(e.target.value)

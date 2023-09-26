@@ -6,7 +6,7 @@ import users from '../data/users.json'
 import { UserContext } from '../context'
 
 export default function SignUp() {
-  //const {register} = useContext(UserContext)
+  const {register} = useContext(UserContext)
   const navigate = useNavigate()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -14,8 +14,17 @@ export default function SignUp() {
 
   const [isCredentialInvalid, setIsCredentialInvalid] = useState(false)
 
-  const handleSignUp = () => {
-    
+  const handleSignUp = async () => {
+    if (password !== confirmPassword) {
+      window.alert('Passwords do not match')
+      return
+    }
+    const result = await register(username, password)
+    if (result === true) {
+      navigate('/')
+    } else {
+      window.alert(result)
+    }
   }
   return (
     <form className={style.container}

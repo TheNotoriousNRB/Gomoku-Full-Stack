@@ -13,7 +13,11 @@ export default function Home(){
     const getAction = () => {
         if (user) {
             return <>
-                <Button type="button"  onClick={() => navigate(`/game?size=${size}`)}>
+                <Button type="button"  onClick={async () => {
+                    if (user){
+                        setToken(user.token)
+                    }
+                    navigate(`/game?size=${size}`)}}>
                     Start Game
                 </Button>
             </>
