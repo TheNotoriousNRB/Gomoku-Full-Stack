@@ -2,8 +2,10 @@ import { Position } from "./Position"
 import { GAMESTATE } from "../constants/constants"
 
 export type LogData = {
-    boardSize: number
-    moves: Position[]
-    date: string
+    _id:string,
+    userId: string,
+    boardSize: number,
+    moves: Position[],
+    date: string,
     result: GAMESTATE
 }

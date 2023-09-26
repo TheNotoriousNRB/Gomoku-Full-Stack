@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useRef, useEffect } from 'react'
 import {Button, Input, Message} from '../components'
 import { useNavigate } from 'react-router-dom'
 import style from './Login.module.css'
@@ -7,36 +7,47 @@ import { UserContext } from '../context'
 
 export default function Login() {
   const {login} = useContext(UserContext)
+  const usernameInput = useRef<HTMLInputElement | null>(null)
   const navigate = useNavigate()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [errorMessage, setError] = useState('')
 
-  const [isCredentialInvalid, setIsCredentialInvalid] = useState(false)
 
   const handleLogin = async () => {
     const user = await login(username, password)
+    setError('')
     if (user===true) {
       navigate('/game')
     } else {
-      setIsCredentialInvalid(true)
+      setError(user)
     }
   }
+
+  useEffect(() => {
+    if(usernameInput.current){
+      usernameInput.current.focus()
+    }
+  }, [])
+  
+
   return (
     <form className={style.container}
      onSubmit={(e) => {
       e.preventDefault()
       handleLogin()
     }}>
-      { isCredentialInvalid && (
+      { errorMessage && (
       <Message variant="error" message="Invalid Username or Password"/>
       )}
-      <Input 
+      <Input  
+      ref={usernameInput}
         name="username" 
         placeholder="Enter Username" 
         value={username} 
         onChange={(e) => {
           setUsername(e.target.value)
-          setIsCredentialInvalid(false)
+          setError('')
         }} 
       />
       <Input 
@@ -45,7 +56,7 @@ export default function Login() {
         value={password} 
         onChange={(e) => {
           setPassword(e.target.value)
-          setIsCredentialInvalid(false)
+          setError('')
         }} 
       />
       <Button type="submit">Login</Button>

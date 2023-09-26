@@ -7,7 +7,7 @@ import { stonePositions } from '../utils'
 
 type BoardProps = {
   size: number
-  moves: Position []
+  moves: Position[]
   updateGameStatus?: (moves: Position) => void
   blocked?: boolean
 }

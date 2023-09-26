@@ -4,6 +4,7 @@ import style from './Home.module.css'
 import { validBoardSize } from '../constants/constants'
 import { Button } from '../components'
 import { UserContext } from '../context'
+import { post, setToken } from '../utils/http'
 
 export default function Home(){
     const navigate = useNavigate()
@@ -17,6 +18,14 @@ export default function Home(){
                     if (user){
                         setToken(user.token)
                     }
+                    await post(`/api/games`, {
+                        userID: user?._id,
+                        boardSize: size,
+                        moves: [[]],
+                        date:"",
+                        result:""
+                    })
+                        
                     navigate(`/game?size=${size}`)}}>
                     Start Game
                 </Button>

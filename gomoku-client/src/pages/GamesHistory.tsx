@@ -1,26 +1,43 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { UserContext } from '../context'
 import { useContext } from 'react'
-import { Navigate, useNavigate, useSearchParams } from 'react-router-dom'
+import { Navigate, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { useLocalStorage } from '../hooks'
 import { LogData } from '../types'
 import style from './GamesHistory.module.css'
 import { GameBoard } from '../components'
 import {Button} from '../components'
+import { get } from '../utils/http'
 
 export default function GamesHistory() {
   const {user} = useContext(UserContext)
-  const [searchParams] = useSearchParams()
-  const id = parseInt(searchParams.get('id') || '0')
-  console.log(id)
+  const {gameId = ''} = useParams()
   const navigate = useNavigate()
+  const [gamesById, setGameById] = useState<LogData[]>([])
   const [games] = useLocalStorage<LogData[]>('games', [])
-  const game = games.find(
-    (g) => new Date(g.date).getTime() === id
-  )
-  if(!game) return <Navigate to="/gameLog"/>
-    
+ 
+   
   if (!user) return <Navigate to="/login"/>
+
+  const getGameById =async () => {
+    const getGames = await get<LogData[]>('../api/games')
+    setGameById(getGames)
+  }
+
+  useEffect(() => {
+    getGameById()
+  }, [])
+
+  const game = gamesById.find(
+    (i)=>i._id==gameId
+  )
+  
+  if(!game)
+  return(
+    <div>
+      <p> Select an option:</p>
+    </div>
+  ) 
 
   const {boardSize, moves, result } = game
 
